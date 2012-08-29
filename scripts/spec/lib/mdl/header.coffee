@@ -147,6 +147,12 @@ define [
           header.size = -1
           expect(header.size).toEqual -1
 
+      describe "skinSize", ->
+
+        it "should calculate the size in bytes of a skin", ->
+          expect(header.skinSize).toEqual(header.skinWidth * header.skinHeight)
+
+
 
     describe "#constructor", ->
 

@@ -80,3 +80,7 @@ define [
     @define 'size'
       get:       -> @_data.getFloat32(80, Header.IS_LITTLE_ENDIAN)
       set: (val) -> @_data.setFloat32(80, val, Header.IS_LITTLE_ENDIAN)
+
+
+    @define 'skinSize'
+      get:       -> @skinWidth * @skinHeight
