@@ -7,6 +7,7 @@ define [
 
   class Skin
 
+
     Accessorize::augment this
 
 
@@ -22,3 +23,7 @@ define [
     @define 'group'
       get:       -> @_dataView.getInt32(0, Header.IS_LITTLE_ENDIAN)
       set: (val) -> @_dataView.setInt32(0, val, Header.IS_LITTLE_ENDIAN)
+
+
+    @define 'size',
+      get:       -> @_dataView.byteLength

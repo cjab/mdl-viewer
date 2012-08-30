@@ -39,7 +39,7 @@ define [
 
       beforeEach ->
         header   = new Header(buffer)
-        dataView = new DataView(buffer, Header.LENGTH, header.skinSize)
+        dataView = new DataView(buffer, Header.LENGTH, header.skinSize + 4)
         skin     = new Skin(dataView)
 
       describe "group", ->
@@ -57,10 +57,16 @@ define [
           dataArray = new Uint8Array(
             buffer,
             Header.LENGTH + 4,
-            header.skinSize - 4
+            header.skinSize
           )
           expect(skin.data).toEqual dataArray
 
         it "should be editable", ->
           skin.data[0] = 5
           expect(skin.data[0]).toEqual 5
+
+      describe "size", ->
+
+        it "should calculate the size in bytes of the skin", ->
+          expect(skin.size).toEqual(header.skinSize + 4)
+
