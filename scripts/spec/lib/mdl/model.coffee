@@ -54,3 +54,9 @@ define [
             expect(model.skins.length).toEqual model.header.numSkins
             for i in [0...model.header.numSkins]
               expect(model.skins[i]).toBeTruthy()
+
+
+        it "should read the texture coordinates", ->
+          console.log model
+          expect(model.textureCoordinates.length).toEqual model.header.numVerts
+          expect(model.textureCoordinates[0]).toBeTruthy()

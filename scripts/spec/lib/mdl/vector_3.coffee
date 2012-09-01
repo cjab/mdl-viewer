@@ -23,9 +23,9 @@ define [
           vector     = new Vector3(vectorView)
 
         it "should set the x, y, and z coordinates and the view", ->
-          expect(vector.x()).toBeCloseTo 1.1
-          expect(vector.y()).toBeCloseTo 2.2
-          expect(vector.z()).toBeCloseTo 3.3
+          expect(vector.x).toBeCloseTo 1.1
+          expect(vector.y).toBeCloseTo 2.2
+          expect(vector.z).toBeCloseTo 3.3
           expect(vector.data).toEqual vectorView
 
 

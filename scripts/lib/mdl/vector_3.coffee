@@ -1,18 +1,32 @@
 define [
+  "cs!lib/mixins/accessorize"
 ],
 
-() ->
+(Accessorize) ->
 
   class Vector3
 
+    Accessorize::augment this
+
     @LENGTH: 12 # bytes
 
-    constructor: (@data) ->
+    constructor: (@_data) ->
 
-    x: -> @data[0]
+    @define 'x'
+      get:       -> @_data[0]
+      set: (val) -> @_data[0] = val
 
 
-    y: -> @data[1]
+    @define 'y'
+      get:       -> @_data[1]
+      set: (val) -> @_data[1] = val
 
 
-    z: -> @data[2]
+    @define 'z'
+      get:       -> @_data[2]
+      set: (val) -> @_data[2] = val
+
+
+    @define 'data'
+      get:       -> @_data
+      set: (val) -> @_data = val

@@ -14,6 +14,7 @@ define [
     @IDENT_VALUE:      1330660425 # "IDPO"
     @IS_LITTLE_ENDIAN: yes
 
+
     constructor: (buffer) ->
       @_data = new DataView(buffer, 0, Header.LENGTH)
 

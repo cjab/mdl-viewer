@@ -166,25 +166,25 @@ define [
           x = dataView.getFloat32(8,  Header.IS_LITTLE_ENDIAN)
           y = dataView.getFloat32(12, Header.IS_LITTLE_ENDIAN)
           z = dataView.getFloat32(16, Header.IS_LITTLE_ENDIAN)
-          expect(header.scale.x()).toBeCloseTo x
-          expect(header.scale.y()).toBeCloseTo y
-          expect(header.scale.z()).toBeCloseTo z
+          expect(header.scale.x).toBeCloseTo x
+          expect(header.scale.y).toBeCloseTo y
+          expect(header.scale.z).toBeCloseTo z
 
         it "should create the translate vector", ->
           x = dataView.getFloat32(20, Header.IS_LITTLE_ENDIAN)
           y = dataView.getFloat32(24, Header.IS_LITTLE_ENDIAN)
           z = dataView.getFloat32(28, Header.IS_LITTLE_ENDIAN)
-          expect(header.translate.x()).toBeCloseTo x
-          expect(header.translate.y()).toBeCloseTo y
-          expect(header.translate.z()).toBeCloseTo z
+          expect(header.translate.x).toBeCloseTo x
+          expect(header.translate.y).toBeCloseTo y
+          expect(header.translate.z).toBeCloseTo z
 
         it "should create the eye position vector", ->
           x = dataView.getFloat32(20, Header.IS_LITTLE_ENDIAN)
           y = dataView.getFloat32(24, Header.IS_LITTLE_ENDIAN)
           z = dataView.getFloat32(28, Header.IS_LITTLE_ENDIAN)
-          expect(header.translate.x()).toBeCloseTo x
-          expect(header.translate.y()).toBeCloseTo y
-          expect(header.translate.z()).toBeCloseTo z
+          expect(header.translate.x).toBeCloseTo x
+          expect(header.translate.y).toBeCloseTo y
+          expect(header.translate.z).toBeCloseTo z
 
 
       #TODO: Decide if this will be supported
