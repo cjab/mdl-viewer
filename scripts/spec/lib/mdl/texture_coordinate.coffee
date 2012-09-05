@@ -44,7 +44,6 @@ define [
 
         it "should be accessible", ->
           expected = dataView.getInt32(4, Header.IS_LITTLE_ENDIAN)
-          console.log "s", expected
           expect(coordinate.s).toEqual expected
 
         it "should be assignable", ->
@@ -55,7 +54,6 @@ define [
 
         it "should be accessible", ->
           expected = dataView.getInt32(8, Header.IS_LITTLE_ENDIAN)
-          console.log "t", expected
           expect(coordinate.t).toEqual expected
 
         it "should be assignable", ->

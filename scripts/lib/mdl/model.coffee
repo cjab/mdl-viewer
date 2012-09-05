@@ -1,12 +1,17 @@
 define [
+  "cs!lib/mixins/accessorize"
   "cs!lib/mdl/header"
   "cs!lib/mdl/skin"
   "cs!lib/mdl/texture_coordinate"
+  "cs!lib/mdl/triangle"
+  "cs!lib/mdl/vertex"
 ],
 
-(Header, Skin, TextureCoordinate) ->
+(Accessorize, Header, Skin, TextureCoordinate, Triangle, Vertex) ->
 
   class Model
+
+    Accessorize::augment this
 
     constructor: (@_buffer) ->
       @header             = new Header(@_buffer)
@@ -25,8 +30,31 @@ define [
 
     _buildTextureCoordinates: (buffer, header) ->
       textureCoordinates = []
-      beginOffset = Header.LENGTH + (header.numSkins * (header.skinSize + 4))
       for i in [0...header.numVerts]
-        offset    = beginOffset + (i * TextureCoordinate.LENGTH)
+        offset    = @textureCoordinateOffset + (i * TextureCoordinate.LENGTH)
         coordView = new DataView(buffer, offset, TextureCoordinate.LENGTH)
         textureCoordinates[i] = new TextureCoordinate(coordView)
+
+
+    @define 'textureOffset'
+      get: -> Header.LENGTH
+
+
+    @define 'textureCoordinateOffset'
+      get: -> @textureOffset +
+              ((@header.skinSize + 4) * @header.numSkins)
+
+
+    @define 'triangleOffset'
+      get: -> @textureCoordinateOffset +
+              (TextureCoordinate.LENGTH * @header.numVerts)
+
+
+    @define 'vertexOffset'
+      get: -> @triangleOffset +
+              (Triangle.LENGTH * @header.numTris)
+
+
+    @define 'frameOffset'
+      get: -> @vertexOffset +
+              (Vertex.LENGTH * @header.numVerts)

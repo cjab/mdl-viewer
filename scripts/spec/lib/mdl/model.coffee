@@ -1,8 +1,12 @@
 define [
   "cs!lib/mdl/model"
+  "cs!lib/mdl/header"
+  "cs!lib/mdl/texture_coordinate"
+  "cs!lib/mdl/triangle"
+  "cs!lib/mdl/vertex"
 ],
 
-(Model) ->
+(Model, Header, TextureCoordinate, Triangle, Vertex) ->
 
   describe "Model", ->
 
@@ -18,6 +22,8 @@ define [
       xhr.onload = (e) -> buffer = xhr.response
       xhr.send()
       waitsFor -> xhr.readyState == 4
+
+
 
     describe "#constructor", ->
 
@@ -57,6 +63,55 @@ define [
 
 
         it "should read the texture coordinates", ->
-          console.log model
           expect(model.textureCoordinates.length).toEqual model.header.numVerts
           expect(model.textureCoordinates[0]).toBeTruthy()
+
+    describe "property", ->
+
+
+      describe "textureOffset", ->
+
+        it "should return the offset in bytes of this model's texture data", ->
+          expect(model.textureOffset).toEqual Header.LENGTH
+
+
+
+      describe "textureCoordinateOffset", ->
+
+        it "should return the offset in bytes of this model's texture coordinates", ->
+          header = new Header(buffer)
+          offset = Header.LENGTH + ((header.skinSize + 4) * header.numSkins)
+          expect(model.textureCoordinateOffset).toEqual offset
+
+
+      describe "triangleOffset", ->
+
+        it "should return the offset in bytes of this model's triangle data", ->
+          header = new Header(buffer)
+          offset = Header.LENGTH +
+                   ((header.skinSize + 4) * header.numSkins) +
+                   (TextureCoordinate.LENGTH * header.numVerts)
+          expect(model.triangleOffset).toEqual offset
+
+
+      describe "vertexOffset", ->
+
+        it "should return the offset in bytes of this model's vertex data", ->
+          header = new Header(buffer)
+          offset = Header.LENGTH +
+                   ((header.skinSize + 4) * header.numSkins) +
+                   (TextureCoordinate.LENGTH * header.numVerts) +
+                   (Triangle.LENGTH * header.numTris)
+          expect(model.vertexOffset).toEqual offset
+
+
+      describe "frameOffset", ->
+
+        it "should return the offset in bytes of this model's frame data", ->
+          header = new Header(buffer)
+          offset = Header.LENGTH +
+                   ((header.skinSize + 4) * header.numSkins) +
+                   (TextureCoordinate.LENGTH * header.numVerts) +
+                   (Triangle.LENGTH * header.numTris) +
+                   (Vertex.LENGTH   * header.numVerts)
+          expect(model.frameOffset).toEqual offset
