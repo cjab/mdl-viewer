@@ -66,6 +66,17 @@ define [
           expect(model.textureCoordinates.length).toEqual model.header.numVerts
           expect(model.textureCoordinates[0]).toBeTruthy()
 
+
+        it "should read the triangles", ->
+          expect(model.triangles.length).toEqual model.header.numTris
+          expect(model.triangles[0]).toBeTruthy()
+
+
+        it "should read the vertices", ->
+          expect(model.vertices.length).toEqual model.header.numVerts
+          expect(model.vertices[0]).toBeTruthy()
+
+
     describe "property", ->
 
 

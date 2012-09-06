@@ -17,6 +17,8 @@ define [
       @header             = new Header(@_buffer)
       @skins              = @_buildSkins(@_buffer, @header)
       @textureCoordinates = @_buildTextureCoordinates(@_buffer, @header)
+      @triangles          = @_buildTriangles(@_buffer, @header)
+      @vertices           = @_buildVertices(@_buffer, @header)
 
 
     _buildSkins: (buffer, header) ->
@@ -34,6 +36,22 @@ define [
         offset    = @textureCoordinateOffset + (i * TextureCoordinate.LENGTH)
         coordView = new DataView(buffer, offset, TextureCoordinate.LENGTH)
         textureCoordinates[i] = new TextureCoordinate(coordView)
+
+
+    _buildTriangles: (buffer, header) ->
+      triangles = []
+      for i in [0...header.numTris]
+        offset       = @triangleOffset + (i * Triangle.LENGTH)
+        triangleView = new DataView(buffer, offset, Triangle.LENGTH)
+        triangles[i] = new Triangle(triangleView)
+
+
+    _buildVertices: (buffer, header) ->
+      vertices = []
+      for i in [0...header.numVerts]
+        offset       = @vertexOffset + (i * Vertex.LENGTH)
+        vertexView   = new DataView(buffer, offset, Vertex.LENGTH)
+        vertices[i]  = new Vertex(vertexView)
 
 
     @define 'textureOffset'
