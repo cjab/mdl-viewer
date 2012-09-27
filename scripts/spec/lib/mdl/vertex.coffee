@@ -27,8 +27,7 @@ define [
     describe "property", ->
 
       beforeEach ->
-        model = new Model(buffer)
-        #TODO: Calculate proper offset
+        model      = new Model(buffer)
         offset     = model.vertexOffset
         dataView   = new DataView(buffer, offset, Vertex.LENGTH)
         vertex     = new Vertex(dataView)

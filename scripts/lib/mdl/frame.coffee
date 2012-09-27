@@ -1,28 +1,23 @@
 define [
   "cs!lib/mixins/accessorize"
   "cs!lib/mdl/header"
+  "cs!lib/mdl/simple_frame"
 ],
 
-(Accessorize, Header) ->
+(Accessorize, Header, SimpleFrame) ->
 
-  class Skin
+  class Frame
 
     Accessorize::augment this
 
 
     constructor: (@_dataView) ->
-      throw "Not a Skin, possibly a SkinGroup" if @group == 1
-      @data = new Uint8Array(
+      @frame = new SimpleFrame(new DataView(
         @_dataView.buffer,
-        @_dataView.byteOffset + 4,
-        @_dataView.byteLength - 4
-      )
+        @_dataView.byteOffset + 4 # Move past type int
+      ))
 
 
-    @define 'group'
+    @define 'type'
       get:       -> @_dataView.getInt32(0, Header.IS_LITTLE_ENDIAN)
       set: (val) -> @_dataView.setInt32(0, val, Header.IS_LITTLE_ENDIAN)
-
-
-    @define 'size',
-      get:       -> @_dataView.byteLength
