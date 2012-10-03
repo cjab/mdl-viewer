@@ -17,7 +17,7 @@ define [
       @_vertex = new Int32Array(
         @_dataView.buffer,
         @_dataView.byteOffset + 4,
-        12
+        3
       )
 
 

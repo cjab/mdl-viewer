@@ -11,7 +11,8 @@ define [
     Accessorize::augment this
 
 
-    @NAME_LENGTH = 16
+    @NAME_LENGTH   = 16
+    @VERTEX_OFFSET = (2 * Vertex.LENGTH) + SimpleFrame.NAME_LENGTH
 
 
     constructor: (@_dataView, @_numVerts) ->
@@ -33,7 +34,7 @@ define [
       )
       @verts = @_buildVertices(
         @_dataView.buffer,
-        @_dataView.byteOffset + (2 * Vertex.LENGTH) + SimpleFrame.NAME_LENGTH,
+        @_dataView.byteOffset + SimpleFrame.VERTEX_OFFSET,
         @_numVerts
       )
 

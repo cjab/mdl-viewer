@@ -28,3 +28,18 @@ define [
     @define 'normalIndex'
       get:       -> @_dataView.getUint8(3, Header.IS_LITTLE_ENDIAN)
       set: (val) -> @_dataView.setUint8(3, val, Header.IS_LITTLE_ENDIAN)
+
+
+    @define 'x'
+      get:       -> @_data[0]
+      set: (val) -> @_data[0] = val
+
+
+    @define 'y'
+      get:       -> @_data[1]
+      set: (val) -> @_data[1] = val
+
+
+    @define 'z'
+      get:       -> @_data[2]
+      set: (val) -> @_data[2] = val

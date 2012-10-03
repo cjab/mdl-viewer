@@ -5,20 +5,22 @@ define [
   "cs!lib/mdl/texture_coordinate"
   "cs!lib/mdl/triangle"
   "cs!lib/mdl/vertex"
+  "cs!lib/mdl/frame"
 ],
 
-(Accessorize, Header, Skin, TextureCoordinate, Triangle, Vertex) ->
+(Accessorize, Header, Skin, TextureCoordinate, Triangle, Vertex, Frame) ->
 
   class Model
 
     Accessorize::augment this
+
 
     constructor: (@_buffer) ->
       @header             = new Header(@_buffer)
       @skins              = @_buildSkins(@_buffer, @header)
       @textureCoordinates = @_buildTextureCoordinates(@_buffer, @header)
       @triangles          = @_buildTriangles(@_buffer, @header)
-      @vertices           = @_buildVertices(@_buffer, @header)
+      @frames             = @_buildFrames(@_buffer, @header)
 
 
     _buildSkins: (buffer, header) ->
@@ -46,12 +48,17 @@ define [
         triangles[i] = new Triangle(triangleView)
 
 
-    _buildVertices: (buffer, header) ->
-      vertices = []
-      for i in [0...header.numVerts]
-        offset       = @vertexOffset + (i * Vertex.LENGTH)
-        vertexView   = new DataView(buffer, offset, Vertex.LENGTH)
-        vertices[i]  = new Vertex(vertexView)
+    _buildFrames: (buffer, header) ->
+      frames = []
+      # FIXME: It feels like the frame should be responsible for computing this.
+      #        The problem is without the header it's not known how many verts
+      #        there will be.
+      frameLength = 4 + (Vertex.LENGTH * 2) + 16 + (header.numVerts * Vertex.LENGTH)
+      for i in [0...header.numFrames]
+        offset    = @frameOffset + (i * frameLength)
+        result = offset + frameLength
+        frameView = new DataView buffer, offset, frameLength
+        frames[i] = new Frame(frameView, header.numVerts)
 
 
     @define 'textureOffset'
@@ -68,11 +75,6 @@ define [
               (TextureCoordinate.LENGTH * @header.numVerts)
 
 
-    @define 'vertexOffset'
+    @define 'frameOffset'
       get: -> @triangleOffset +
               (Triangle.LENGTH * @header.numTris)
-
-
-    @define 'frameOffset'
-      get: -> @vertexOffset +
-              (Vertex.LENGTH * @header.numVerts)

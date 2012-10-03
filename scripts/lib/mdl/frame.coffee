@@ -11,11 +11,11 @@ define [
     Accessorize::augment this
 
 
-    constructor: (@_dataView) ->
+    constructor: (@_dataView, @_numVerts) ->
       @frame = new SimpleFrame(new DataView(
         @_dataView.buffer,
-        @_dataView.byteOffset + 4 # Move past type int
-      ))
+        @_dataView.byteOffset + 4, # Move past type int
+      ), @_numVerts )
 
 
     @define 'type'

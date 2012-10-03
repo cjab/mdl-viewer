@@ -35,6 +35,9 @@ define [
         it "should read the header", ->
           expect(model.header).toBeTruthy()
 
+        it "should read the frames", ->
+          expect(model.frames[0]).toBeTruthy()
+
         describe "with a single skin", ->
 
           it "should read the skin", ->
@@ -72,10 +75,6 @@ define [
           expect(model.triangles[0]).toBeTruthy()
 
 
-        it "should read the vertices", ->
-          expect(model.vertices.length).toEqual model.header.numVerts
-          expect(model.vertices[0]).toBeTruthy()
-
 
     describe "property", ->
 
@@ -105,17 +104,6 @@ define [
           expect(model.triangleOffset).toEqual offset
 
 
-      describe "vertexOffset", ->
-
-        it "should return the offset in bytes of this model's vertex data", ->
-          header = new Header(buffer)
-          offset = Header.LENGTH +
-                   ((header.skinSize + 4) * header.numSkins) +
-                   (TextureCoordinate.LENGTH * header.numVerts) +
-                   (Triangle.LENGTH * header.numTris)
-          expect(model.vertexOffset).toEqual offset
-
-
       describe "frameOffset", ->
 
         it "should return the offset in bytes of this model's frame data", ->
@@ -123,6 +111,5 @@ define [
           offset = Header.LENGTH +
                    ((header.skinSize + 4) * header.numSkins) +
                    (TextureCoordinate.LENGTH * header.numVerts) +
-                   (Triangle.LENGTH * header.numTris) +
-                   (Vertex.LENGTH   * header.numVerts)
+                   (Triangle.LENGTH * header.numTris)
           expect(model.frameOffset).toEqual offset

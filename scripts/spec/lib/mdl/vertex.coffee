@@ -2,9 +2,10 @@ define [
   "cs!lib/mdl/vertex"
   "cs!lib/mdl/header"
   "cs!lib/mdl/model"
+  "cs!lib/mdl/simple_frame"
 ],
 
-(Vertex, Header, Model) ->
+(Vertex, Header, Model, SimpleFrame) ->
 
   describe "Vertex", ->
 
@@ -28,19 +29,49 @@ define [
 
       beforeEach ->
         model      = new Model(buffer)
-        offset     = model.vertexOffset
+        offset     = model.frameOffset + 4 + SimpleFrame.VERTEX_OFFSET
         dataView   = new DataView(buffer, offset, Vertex.LENGTH)
         vertex     = new Vertex(dataView)
 
       describe "normalIndex", ->
 
         it "should be accessible", ->
-          expected = dataView.getUint8(0, Header.IS_LITTLE_ENDIAN)
+          expected = dataView.getUint8(3, Header.IS_LITTLE_ENDIAN)
           expect(vertex.normalIndex).toEqual expected
 
         it "should be assignable", ->
           vertex.normalIndex = 3
           expect(vertex.normalIndex).toEqual 3
+
+      describe "x", ->
+
+        it "should be accessible", ->
+          expected = new Uint8Array(buffer, offset, 3)
+          expect(vertex.x).toEqual expected[0]
+
+        it "should be assignable", ->
+          vertex.x = 3
+          expect(vertex.x).toEqual 3
+
+      describe "y", ->
+
+        it "should be accessible", ->
+          expected = new Uint8Array(buffer, offset, 3)
+          expect(vertex.y).toEqual expected[1]
+
+        it "should be assignable", ->
+          vertex.y = 3
+          expect(vertex.y).toEqual 3
+
+      describe "z", ->
+
+        it "should be accessible", ->
+          expected = new Uint8Array(buffer, offset, 3)
+          expect(vertex.z).toEqual expected[2]
+
+        it "should be assignable", ->
+          vertex.z = 3
+          expect(vertex.z).toEqual 3
 
       describe "coordinates", ->
 
