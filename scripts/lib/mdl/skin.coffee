@@ -1,16 +1,17 @@
 define [
   "cs!lib/mixins/accessorize"
   "cs!lib/mdl/header"
+  "cs!lib/mdl/palette"
 ],
 
-(Accessorize, Header) ->
+(Accessorize, Header, PALETTE) ->
 
   class Skin
 
     Accessorize::augment this
 
 
-    constructor: (@_dataView) ->
+    constructor: (@_dataView, @width, @height) ->
       throw "Not a Skin, possibly a SkinGroup" if @group == 1
       @data = new Uint8Array(
         @_dataView.buffer,
@@ -26,3 +27,11 @@ define [
 
     @define 'size',
       get:       -> @_dataView.byteLength
+
+
+    @define 'data24',
+      get: ->
+        bytes  = 3
+        buffer = new Uint8Array(@width * @height * bytes)
+        (buffer[i] = PALETTE[@data[i]]) for i in [0...@size]
+        buffer

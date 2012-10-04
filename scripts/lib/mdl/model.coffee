@@ -29,7 +29,7 @@ define [
       for i in [0...header.numSkins]
         offset   = Header.LENGTH + (i * skinObjectSize)
         skinView = new DataView(buffer, offset, skinObjectSize)
-        skins[i] = new Skin(skinView)
+        skins[i] = new Skin(skinView, @header.skinWidth, @header.skinHeight)
 
 
     _buildTextureCoordinates: (buffer, header) ->

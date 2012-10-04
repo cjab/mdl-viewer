@@ -8,6 +8,7 @@ define [
 
   class MdlViewer
 
+
     constructor: (@container, @buffer) ->
       @renderer = new THREE.WebGLRenderer antialias: true
       @container.appendChild @renderer.domElement
@@ -22,10 +23,17 @@ define [
       )
       @camera.position.set 0, 0, 100.5
 
+      @loadModel()
+
+      requestAnimationFrame @render
+
+
+
+    loadModel: ->
       @model = new Model @buffer
       geometry = new THREE.Geometry
 
-      for vertex in @model.frames[0].frame.verts
+      for vertex in @model.frames[1].frame.verts
         geometry.vertices.push new THREE.Vector3(
           @model.header.scale.x * vertex.x + @model.header.translate.x,
           @model.header.scale.y * vertex.y + @model.header.translate.y,
@@ -34,19 +42,42 @@ define [
 
       for triangle in @model.triangles
         geometry.faces.push new THREE.Face3(
-          triangle.vertex[0],
-          triangle.vertex[1],
-          triangle.vertex[2]
+          v1 = triangle.vertex[0],
+          v2 = triangle.vertex[1],
+          v3 = triangle.vertex[2]
         )
+        uvs = for i in [0..2]
+          vertex = triangle.vertex[i]
+          coord  = @model.textureCoordinates[vertex]
+          s      = coord.s
+          t      = coord.t
+          if coord.onSeam and triangle.facesFront
+            s += @model.header.skinWidth / 2
+          s /= @model.header.skinWidth
+          t /= @model.header.skinHeight
+          new THREE.UV(s, t)
+        geometry.faceVertexUvs[0].push(uvs)
+
+
+      texture = new THREE.DataTexture(
+        @model.skins[0].data24,
+        @model.header.skinWidth,
+        @model.header.skinHeight,
+        THREE.RGBFormat
+      )
+
+      @renderer.setFaceCulling(false)
+
+      texture.needsUpdate = yes
 
       material = new THREE.MeshBasicMaterial(
-        color:     0xcccccc
-        wireframe: true
+        #map: texture
+        wireframe: yes
       )
+      geometry.computeFaceNormals()
       @mesh = new THREE.Mesh geometry, material
       @scene.add @mesh
 
-      requestAnimationFrame @render
 
 
     render: =>

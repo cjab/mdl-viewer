@@ -8,14 +8,16 @@ define [
 
 
   initialize = ->
-    mdlViewer = null
-    modelUrl  = "/data/pak0/progs/player.mdl"
+    mdlViewer  = null
+    modelUrl   = "/data/pak0/progs/player.mdl"
 
     xhr = new XMLHttpRequest()
     xhr.responseType = "arraybuffer"
+
     xhr.open "GET", modelUrl
     xhr.onload = (e) ->
-      new MdlViewer document.getElementById("container"), xhr.response
+      modelData = e.target.response
+      new MdlViewer(document.getElementById("container"), modelData)
     xhr.send()
 
 
