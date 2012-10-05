@@ -1,30 +1,22 @@
 define [
+  "cs!spec/spec_helper"
   "Three"
   "cs!lib/entity"
   "cs!lib/mdl/model"
 ],
 
-(THREE, Entity, Model) ->
+(SpecHelper, THREE, Entity, Model) ->
+
 
   describe "Entity", ->
 
-    buffer   = null
     model    = null
     dataView = null
     offset   = null
     renderer = new THREE.WebGLRenderer
-    modelUrl = "/data/pak0/progs/player.mdl"
     frame    = null
 
-    beforeEach ->
-      xhr = new XMLHttpRequest()
-      xhr.responseType = "arraybuffer"
-      xhr.open "GET", modelUrl
-      xhr.onload = (e) ->
-        buffer = xhr.response
-        model  = new Model(buffer)
-      xhr.send()
-      waitsFor -> xhr.readyState == 4
+    beforeEach -> model = new Model(@env.buffer.slice(0))
 
 
     describe "#constructor", ->

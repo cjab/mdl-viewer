@@ -34,18 +34,31 @@
       "cs!spec/lib/mdl/texture_coordinate"
     ],
     function() {
-      var jasmineEnv = jasmine.getEnv();
-      jasmineEnv.updateInterval = 1000;
+      var modelUrl = "/data/pak0/progs/grenade.mdl";
+      var buffer   = null;
+      var xhr  = new XMLHttpRequest();
 
-      var htmlReporter = new jasmine.HtmlReporter();
+      initJasmine = function() {
+        var jasmineEnv = jasmine.getEnv();
+        jasmineEnv.buffer = buffer
+        jasmineEnv.updateInterval = 1000;
 
-      jasmineEnv.addReporter(htmlReporter);
+        var htmlReporter = new jasmine.HtmlReporter();
 
-      jasmineEnv.specFilter = function(spec) {
-        return htmlReporter.specFilter(spec);
-      };
+        jasmineEnv.addReporter(htmlReporter);
 
-      jasmineEnv.execute();
+        jasmineEnv.specFilter = function(spec) {
+          return htmlReporter.specFilter(spec);
+        };
+
+        jasmineEnv.execute();
+      }
+
+      xhr.responseType = "arraybuffer";
+      xhr.open("GET", modelUrl);
+      xhr.onload = function(e) { buffer = xhr.response; initJasmine(); }
+      xhr.send()
+
     });
   </script>
 

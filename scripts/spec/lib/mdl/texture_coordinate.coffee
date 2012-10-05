@@ -13,13 +13,7 @@ define [
     modelUrl   = "/data/pak0/progs/player.mdl"
     coordinate = null
 
-    beforeEach ->
-      xhr = new XMLHttpRequest()
-      xhr.responseType = "arraybuffer"
-      xhr.open "GET", modelUrl
-      xhr.onload = (e) -> buffer = xhr.response
-      xhr.send()
-      waitsFor -> xhr.readyState == 4
+    beforeEach -> buffer = @env.buffer.slice(0)
 
 
     describe "property", ->

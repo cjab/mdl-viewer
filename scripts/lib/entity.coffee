@@ -26,7 +26,7 @@ define [
     _loadGeometry: (model) ->
       geometry = new THREE.Geometry
 
-      for vertex in model.frames[1].frame.verts
+      for vertex in model.frames[0].frame.verts
         geometry.vertices.push new THREE.Vector3(
           model.header.scale.x * vertex.x + model.header.translate.x,
           model.header.scale.y * vertex.y + model.header.translate.y,
