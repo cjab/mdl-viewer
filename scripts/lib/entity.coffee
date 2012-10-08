@@ -105,6 +105,7 @@ define [
       texture.needsUpdate = yes
 
       material = new THREE.MeshBasicMaterial(
-        #map: texture
+        map: texture
+        color:     "333333"
         wireframe: yes
       )
