@@ -19,6 +19,7 @@ define [
       @renderer.setSize @container.offsetWidth, @container.offsetHeight,
 
       @renderer.setFaceCulling(false)
+      @renderer.fps = @FRAMES_PER_SECOND
 
       @scene  = new THREE.Scene
       @camera = new THREE.PerspectiveCamera(
@@ -33,6 +34,9 @@ define [
       @entities.push new Entity(new Model(@buffer), @renderer)
 
       @scene.add entity.mesh for entity in @entities
+      for entity in @entities
+        entity.mesh.rotation.x = (-2 * Math.PI) / 4
+      #  entity.mesh.rotation.y = (2 * Math.PI) / 4
 
       @intervalId = setInterval @render, (1000 / MdlViewer.FRAMES_PER_SECOND)
 
@@ -41,7 +45,8 @@ define [
     render: =>
       delta = (new Date).getTime() - @lastUpdated
       for entity in @entities
-        entity.mesh.rotation.x += (2 * Math.PI) / 500
-        entity.mesh.rotation.y += (2 * Math.PI) / 500
+        entity.update()
+        #entity.mesh.rotation.x += (2 * Math.PI) / 500
+        #entity.mesh.rotation.y += (2 * Math.PI) / 500
         @renderer.render @scene, @camera
       @lastUpdated = (new Date).getTime()

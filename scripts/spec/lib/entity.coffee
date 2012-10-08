@@ -1,11 +1,10 @@
 define [
-  "cs!spec/spec_helper"
   "Three"
   "cs!lib/entity"
   "cs!lib/mdl/model"
 ],
 
-(SpecHelper, THREE, Entity, Model) ->
+(THREE, Entity, Model) ->
 
 
   describe "Entity", ->
@@ -38,9 +37,35 @@ define [
         expect(entity.renderer).toEqual(renderer)
 
 
-    describe "#timeSinceUpdate", ->
+    describe "#update", ->
 
-      it "should return the time elapsed since the last update", ->
+      it "should update the interpolation value", ->
         entity = new Entity(model, renderer)
-        expected = (new Date).getTime() - entity.lastUpdated
-        expect(entity.timeSinceUpdate).toBeCloseTo(expected)
+        entity.lastUpdated = (new Date).getTime() - 15
+        entity.update()
+        expect(entity._interpolation).toNotBe(0)
+
+      # TODO: This text will require a model with more than one frame,
+      #       this means more models will need to be loaded.
+      #it "should update the current frame value", ->
+      #  entity = new Entity(model, renderer)
+      #  console.log model.frames.length
+      #  entity.lastUpdated = (new Date).getTime() - 3001
+      #  entity.update()
+      #  expect(entity.currentFrame).toNotBe(0)
+
+
+    describe "property", ->
+
+      describe "timeSinceUpdate", ->
+
+        it "should return the time elapsed since the last update", ->
+          entity = new Entity(model, renderer)
+          expected = (new Date).getTime() - entity.lastUpdated
+          expect(entity.timeSinceUpdate).toBeCloseTo(expected)
+
+      describe "currentFrame", ->
+
+        it "should return the current frame of the animation", ->
+          entity = new Entity(model, renderer)
+          expect(entity.currentFrame).toEqual(0)

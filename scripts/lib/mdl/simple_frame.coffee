@@ -26,8 +26,7 @@ define [
         @_dataView.byteOffset + Vertex.LENGTH,
         Vertex.LENGTH
       ))
-      #FIXME: Store anything assigned to name in the Uint8 array
-      @name = new Uint8Array(
+      @_name = new Uint8Array(
         @_dataView.buffer,
         @_dataView.byteOffset + (2 * Vertex.LENGTH),
         SimpleFrame.NAME_LENGTH
@@ -37,6 +36,22 @@ define [
         @_dataView.byteOffset + SimpleFrame.VERTEX_OFFSET,
         @_numVerts
       )
+
+
+
+    @define 'name'
+      # Return the string representation of an array of bytes
+      get: ->
+        i    = 0
+        name = (@_name[i++] while @_name[i] != 0)
+        String.fromCharCode.apply null, name
+
+      # Accept a string but store as an array of bytes in the array buffer
+      set: (value) ->
+        (@_name[i] = value.charCodeAt(i)) for i in [0...value.length]
+        @_name[value.length] = 0
+        value
+
 
 
     _buildVertices: (buffer, beginOffset, numVerts) ->

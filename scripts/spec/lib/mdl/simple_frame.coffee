@@ -54,16 +54,19 @@ define [
       describe "name", ->
 
         it "should be accessible", ->
-          expected = new Uint8Array(
+          name = new Uint8Array(
             buffer,
             offset + (2 * Vertex.LENGTH),
             SimpleFrame.NAME_LENGTH
           )
-          expect(simpleFrame.name).toEqual expected
+          expect(simpleFrame.name).toEqual "grenade"
 
         it "should be assignable", ->
-          #FIXME: Store anything assigned here in the Uint8 array
-          simpleFrame.name = "test"
+          simpleFrame.name  = "test"
+          expect(simpleFrame._name[0]).toEqual "test".charCodeAt(0)
+          expect(simpleFrame._name[1]).toEqual "test".charCodeAt(1)
+          expect(simpleFrame._name[2]).toEqual "test".charCodeAt(2)
+          expect(simpleFrame._name[3]).toEqual "test".charCodeAt(3)
           expect(simpleFrame.name).toEqual "test"
 
       describe "verts", ->
