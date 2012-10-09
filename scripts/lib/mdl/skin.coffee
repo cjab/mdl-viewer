@@ -25,13 +25,17 @@ define [
       set: (val) -> @_dataView.setInt32(0, val, Header.IS_LITTLE_ENDIAN)
 
 
-    @define 'size',
+    @define 'size'
       get:       -> @_dataView.byteLength
 
 
-    @define 'data24',
+    @define 'data24'
       get: ->
         bytes  = 3
         buffer = new Uint8Array(@width * @height * bytes)
-        (buffer[i] = PALETTE[@data[i]]) for i in [0...@size]
+        for i in [0...@data.length]
+          begin = i * bytes
+          buffer[begin    ] = (PALETTE[@data[i]] & 0xff0000) >> 16
+          buffer[begin + 1] = (PALETTE[@data[i]] & 0x00ff00) >>  8
+          buffer[begin + 2] =  PALETTE[@data[i]] & 0x0000ff
         buffer

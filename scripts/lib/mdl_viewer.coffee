@@ -18,7 +18,7 @@ define [
       @container.appendChild @renderer.domElement
       @renderer.setSize @container.offsetWidth, @container.offsetHeight,
 
-      @renderer.setFaceCulling(false)
+      @renderer.setFaceCulling("front")
       @renderer.fps = @FRAMES_PER_SECOND
 
       @scene  = new THREE.Scene
@@ -48,5 +48,6 @@ define [
         entity.update()
         #entity.mesh.rotation.x += (2 * Math.PI) / 500
         #entity.mesh.rotation.y += (2 * Math.PI) / 500
+        entity.mesh.rotation.z += (2 * Math.PI) / 500
         @renderer.render @scene, @camera
       @lastUpdated = (new Date).getTime()

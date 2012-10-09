@@ -13,6 +13,7 @@ define [
 
 
     constructor: (@model, @renderer) ->
+      @animate        = yes
       @currentFrame   = 0
       @_interpolation = 0.0
       @lastUpdated    = (new Date).getTime()
@@ -28,8 +29,9 @@ define [
 
     # Update and animate the entity's model
     update: ->
-      @_updateInterpolation()
-      @_updateVertices()
+      if @animate
+        @_updateInterpolation()
+        @_updateVertices()
       @lastUpdated = (new Date).getTime()
 
 
@@ -74,9 +76,9 @@ define [
 
       for triangle in model.triangles
         geometry.faces.push new THREE.Face3(
-          v1 = triangle.vertex[0],
-          v2 = triangle.vertex[1],
-          v3 = triangle.vertex[2]
+          triangle.vertex[0],
+          triangle.vertex[1],
+          triangle.vertex[2]
         )
         uvs = for i in [0..2]
           vertex = triangle.vertex[i]
@@ -85,9 +87,9 @@ define [
           t      = coord.t
           if coord.onSeam and triangle.facesFront
             s += model.header.skinWidth / 2
-          s /= model.header.skinWidth
-          t /= model.header.skinHeight
-          new THREE.UV(s, t)
+          u = (s + 0.5) / model.header.skinWidth
+          v = (t + 0.5) / model.header.skinHeight
+          new THREE.UV(u, v)
         geometry.faceVertexUvs[0].push(uvs)
       geometry.computeFaceNormals()
       geometry
@@ -106,6 +108,6 @@ define [
 
       material = new THREE.MeshBasicMaterial(
         map: texture
-        color:     "333333"
-        wireframe: yes
+        #color:     "333333"
+        #wireframe: yes
       )
