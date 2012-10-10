@@ -103,7 +103,7 @@ define [
         model.header.skinHeight,
         THREE.RGBFormat
       )
-      texture.flipY       = no
+      texture.flipY       =  no
       texture.needsUpdate = yes
 
       material = new THREE.MeshBasicMaterial(
