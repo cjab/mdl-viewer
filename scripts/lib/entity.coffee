@@ -55,7 +55,7 @@ define [
     # the last update.
     _updateInterpolation: ->
       @_interpolation += @timeSinceUpdate / Entity.ANIMATION_RATE
-      fullFrames      = Math.floor(@_interpolation)
+      fullFrames       = Math.floor(@_interpolation)
       if @_interpolation >= 1
         @currentFrame = (@currentFrame + fullFrames) % @model.frames.length
         @_interpolation = @_interpolation - fullFrames
@@ -85,13 +85,12 @@ define [
           coord  = model.textureCoordinates[vertex]
           s      = coord.s
           t      = coord.t
-          if coord.onSeam and triangle.facesFront
+          if coord.onSeam and not triangle.facesFront
             s += model.header.skinWidth / 2
           u = (s + 0.5) / model.header.skinWidth
           v = (t + 0.5) / model.header.skinHeight
           new THREE.UV(u, v)
         geometry.faceVertexUvs[0].push(uvs)
-      geometry.computeFaceNormals()
       geometry
 
 
@@ -104,6 +103,7 @@ define [
         model.header.skinHeight,
         THREE.RGBFormat
       )
+      texture.flipY       = no
       texture.needsUpdate = yes
 
       material = new THREE.MeshBasicMaterial(

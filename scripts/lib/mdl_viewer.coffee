@@ -36,7 +36,6 @@ define [
       @scene.add entity.mesh for entity in @entities
       for entity in @entities
         entity.mesh.rotation.x = (-2 * Math.PI) / 4
-      #  entity.mesh.rotation.y = (2 * Math.PI) / 4
 
       @intervalId = setInterval @render, (1000 / MdlViewer.FRAMES_PER_SECOND)
 
@@ -46,8 +45,6 @@ define [
       delta = (new Date).getTime() - @lastUpdated
       for entity in @entities
         entity.update()
-        #entity.mesh.rotation.x += (2 * Math.PI) / 500
-        #entity.mesh.rotation.y += (2 * Math.PI) / 500
         entity.mesh.rotation.z += (2 * Math.PI) / 500
         @renderer.render @scene, @camera
       @lastUpdated = (new Date).getTime()
