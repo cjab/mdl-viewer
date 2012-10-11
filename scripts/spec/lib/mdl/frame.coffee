@@ -1,11 +1,11 @@
 define [
   "cs!lib/mdl/frame"
   "cs!lib/mdl/header"
-  "cs!lib/mdl/model"
+  "cs!lib/mdl/mdl"
   "cs!lib/mdl/simple_frame"
 ],
 
-(Frame, Header, Model, SimpleFrame) ->
+(Frame, Header, Mdl, SimpleFrame) ->
 
 
   describe "Frame", ->
@@ -22,7 +22,7 @@ define [
     describe "property", ->
 
       beforeEach ->
-        model    = new Model(buffer)
+        model    = new Mdl(buffer)
         offset   = model.frameOffset
         dataView = new DataView(buffer, offset)
         frame    = new Frame(dataView)

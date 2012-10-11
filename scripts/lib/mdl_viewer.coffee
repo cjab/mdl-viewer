@@ -1,10 +1,10 @@
 define [
   "Three"
-  "cs!lib/mdl/model"
+  "cs!lib/mdl/mdl"
   "cs!lib/entity"
 ],
 
-(THREE, Model, Entity) ->
+(THREE, Mdl, Entity) ->
 
   class MdlViewer
 
@@ -31,7 +31,7 @@ define [
       @camera.position.set 0, 0, 100.5
 
       @entities = []
-      @entities.push new Entity(new Model(@buffer), @renderer)
+      @entities.push new Entity(new Mdl(@buffer), @renderer)
 
       @scene.add entity.mesh for entity in @entities
       for entity in @entities

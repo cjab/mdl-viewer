@@ -2,10 +2,10 @@ define [
   "cs!lib/mdl/simple_frame"
   "cs!lib/mdl/vertex"
   "cs!lib/mdl/header"
-  "cs!lib/mdl/model"
+  "cs!lib/mdl/mdl"
 ],
 
-(SimpleFrame, Vertex, Header, Model) ->
+(SimpleFrame, Vertex, Header, Mdl) ->
 
   describe "SimpleFrame", ->
 
@@ -22,7 +22,7 @@ define [
     describe "property", ->
 
       beforeEach ->
-        model       = new Model(buffer)
+        model       = new Mdl(buffer)
         offset      = model.frameOffset + 4 # Move past type flag (int)
         dataView    = new DataView(buffer, offset)
         simpleFrame = new SimpleFrame(dataView, model.header.numVerts)

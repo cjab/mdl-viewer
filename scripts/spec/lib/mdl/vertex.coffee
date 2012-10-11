@@ -1,11 +1,11 @@
 define [
   "cs!lib/mdl/vertex"
   "cs!lib/mdl/header"
-  "cs!lib/mdl/model"
+  "cs!lib/mdl/mdl"
   "cs!lib/mdl/simple_frame"
 ],
 
-(Vertex, Header, Model, SimpleFrame) ->
+(Vertex, Header, Mdl, SimpleFrame) ->
 
   describe "Vertex", ->
 
@@ -22,7 +22,7 @@ define [
     describe "property", ->
 
       beforeEach ->
-        model      = new Model(buffer)
+        model      = new Mdl(buffer)
         offset     = model.frameOffset + 4 + SimpleFrame.VERTEX_OFFSET
         dataView   = new DataView(buffer, offset, Vertex.LENGTH)
         vertex     = new Vertex(dataView)

@@ -1,10 +1,10 @@
 define [
   "cs!lib/mdl/triangle"
   "cs!lib/mdl/header"
-  "cs!lib/mdl/model"
+  "cs!lib/mdl/mdl"
 ],
 
-(Triangle, Header, Model) ->
+(Triangle, Header, Mdl) ->
 
   describe "Triangle", ->
 
@@ -21,7 +21,7 @@ define [
     describe "property", ->
 
       beforeEach ->
-        model = new Model(buffer)
+        model = new Mdl(buffer)
         #TODO: Calculate proper offset
         offset   = model.triangleOffset
         dataView = new DataView(buffer, offset, Triangle.LENGTH)

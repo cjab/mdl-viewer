@@ -10,7 +10,7 @@ define [
 
 (Accessorize, Header, Skin, TextureCoordinate, Triangle, Vertex, Frame) ->
 
-  class Model
+  class Mdl
 
     Accessorize::augment this
 

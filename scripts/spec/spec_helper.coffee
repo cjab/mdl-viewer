@@ -1,10 +1,10 @@
 define [
   "Three"
   "cs!lib/entity"
-  "cs!lib/mdl/model"
+  "cs!lib/mdl/mdl"
 ],
 
-(THREE, Entity, Model) ->
+(THREE, Entity, Mdl) ->
 
   setup: (context = window) ->
     modelUrl = "/data/pak0/progs/player.mdl"
@@ -15,7 +15,7 @@ define [
     xhr.open "GET", modelUrl
     xhr.onload = (e) ->
       context.buffer = xhr.response
-      context.model  = new Model(context.buffer)
+      context.model  = new Mdl(context.buffer)
     xhr.send()
 
     waitsFor -> xhr.readyState == 4

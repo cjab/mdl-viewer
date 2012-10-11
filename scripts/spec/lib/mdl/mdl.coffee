@@ -1,14 +1,14 @@
 define [
-  "cs!lib/mdl/model"
+  "cs!lib/mdl/mdl"
   "cs!lib/mdl/header"
   "cs!lib/mdl/texture_coordinate"
   "cs!lib/mdl/triangle"
   "cs!lib/mdl/vertex"
 ],
 
-(Model, Header, TextureCoordinate, Triangle, Vertex) ->
+(Mdl, Header, TextureCoordinate, Triangle, Vertex) ->
 
-  describe "Model", ->
+  describe "Mdl", ->
 
     model    = null
     buffer   = null
@@ -23,7 +23,7 @@ define [
       describe "when passed a .mdl file ArrayBuffer", ->
 
         beforeEach ->
-          model = new Model(buffer)
+          model = new Mdl(buffer)
 
         it "should read the header", ->
           expect(model.header).toBeTruthy()
@@ -49,10 +49,8 @@ define [
             xhr.send()
             waitsFor -> xhr.readyState == 4
 
-          it "should work", -> window.blah = new Model(buffer)
-
           it "should read all of the skins", ->
-            model = new Model(buffer)
+            model = new Mdl(buffer)
             expect(model.skins.length).toEqual model.header.numSkins
             for i in [0...model.header.numSkins]
               expect(model.skins[i]).toBeTruthy()

@@ -1,10 +1,8 @@
 define [
   "cs!lib/mdl_viewer"
-  "cs!lib/mdl/model"
-  "Three"
 ],
 
-(MdlViewer, Model, THREE) ->
+(MdlViewer) ->
 
 
   initialize = ->

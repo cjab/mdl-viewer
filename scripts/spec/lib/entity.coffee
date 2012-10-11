@@ -1,10 +1,10 @@
 define [
   "Three"
   "cs!lib/entity"
-  "cs!lib/mdl/model"
+  "cs!lib/mdl/mdl"
 ],
 
-(THREE, Entity, Model) ->
+(THREE, Entity, Mdl) ->
 
 
   describe "Entity", ->
@@ -15,7 +15,7 @@ define [
     renderer = new THREE.WebGLRenderer
     frame    = null
 
-    beforeEach -> model = new Model(@env.buffer.slice(0))
+    beforeEach -> model = new Mdl(@env.buffer.slice(0))
 
 
     describe "#constructor", ->
