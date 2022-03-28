@@ -30,16 +30,9 @@ define [
       )
       @camera.position.set 0, 0, 100.5
 
-      @entities = []
-      @entities.push new Entity(new Mdl(@buffer), @renderer)
-
-      @scene.add entity.mesh for entity in @entities
-      for entity in @entities
-        entity.mesh.rotation.x = (-2 * Math.PI) / 4
+      @set_mdl_entity_on_scene(@buffer)
 
       @intervalId = setInterval @render, (1000 / MdlViewer.FRAMES_PER_SECOND)
-
-
 
     render: =>
       delta = (new Date).getTime() - @lastUpdated
@@ -48,3 +41,14 @@ define [
         entity.mesh.rotation.z += (2 * Math.PI) / 500
         @renderer.render @scene, @camera
       @lastUpdated = (new Date).getTime()
+
+    set_mdl_entity_on_scene: (@buffer) =>
+      @entities = []
+      @entities.push new Entity(new Mdl(@buffer), @renderer)
+
+      @scene.children.forEach (child) =>
+        @scene.remove child
+      @scene.add entity.mesh for entity in @entities
+
+      for entity in @entities
+        entity.mesh.rotation.x = (-2 * Math.PI) / 4
